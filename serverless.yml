@@ -21,13 +21,6 @@ provider:
   runtime: nodejs10.x
   stage: dev
   region: eu-central-1
-
-  # These environment variables are made available to our functions
-  # under process.env.
-  environment:
-    tableName: ${self:custom.tableName}
-    stripeSecretKey: ${env:STRIPE_SECRET_KEY}
-
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -42,6 +35,11 @@ provider:
       # the specific table for the stage
       Resource:
         - "Fn::GetAtt": [NotesTable, Arn]
+  # These environment variables are made available to our functions
+  # under process.env.
+  environment:
+    tableName: ${self:custom.tableName}
+    stripeSecretKey: ${env:STRIPE_SECRET_KEY}
 
 functions:
   # Defines an HTTP API endpoint that calls the main function in create.js
